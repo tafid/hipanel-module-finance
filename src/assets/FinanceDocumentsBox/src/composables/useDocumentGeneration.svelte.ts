@@ -84,6 +84,7 @@ export function useDocumentGeneration(
       type, period: period, client_id, id,
       ...(seller_bank_account_no != null ? { seller_bank_account_no } : {}),
       ...(client_bank_account_no != null ? { client_bank_account_no } : {}),
+      ...(affectedDocs.length === 1 ? { document_id: affectedDocs[0].id } : {}),
     })
       .then(rsp => {
         clearInterval(timer);
