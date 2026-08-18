@@ -48,6 +48,7 @@ class ChargeSearch extends Charge
             'hide_child_charges',
             'requisite_id',
             'client_tags',
+            'document_ids',
         ]);
     }
 
