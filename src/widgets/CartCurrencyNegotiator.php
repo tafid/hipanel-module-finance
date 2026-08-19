@@ -140,16 +140,24 @@ final class CartCurrencyNegotiator extends Widget
             return ExchangeRate::find()->select(['from', 'to', 'rate'])->all();
         }, 3600);
 
+        $cartCurrency = strtoupper($cartCurrency);
         $result = [];
-        foreach ($clientPursesCurrencies as $currency) {
+        foreach (array_unique($clientPursesCurrencies) as $currency) {
+            $currency = strtoupper($currency);
+            // Cart currency is already rendered by the initial renderCurrencyOptions() call in run(),
+            // so it must be skipped here to avoid rendering the same options block twice.
+            if ($currency === $cartCurrency || isset($result[$currency])) {
+                continue;
+            }
             foreach ($rates as $rate) {
-                if ($rate->from === strtoupper($currency) && $rate->to === strtoupper($cartCurrency)) {
-                    $result[] = $rate;
+                if ($rate->from === $currency && $rate->to === $cartCurrency) {
+                    $result[$currency] = $rate;
+                    break;
                 }
             }
         }
 
-        return $result;
+        return array_values($result);
     }
 
     public function getViewPath()
