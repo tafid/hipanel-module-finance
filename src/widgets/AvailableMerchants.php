@@ -26,7 +26,14 @@ class AvailableMerchants extends Widget
 
     public function run()
     {
-        if ($this->merchants === null && Yii::$app->hasModule('merchant') && Yii::$app->user->can('deposit')) {
+        // PurchaseRequestCollection::fetchMerchants() explicitly supports guest
+        // requests (falls back to Yii::$app->params['user.seller'] when there's no
+        // logged-in username), so gating this purely informational "what payment
+        // methods do you accept" marketing block behind the 'deposit' permission
+        // hid it from every anonymous visitor - same guest-allowed pattern as
+        // MainMenu::canBuyVds()/canBuyCertificates().
+        $user = Yii::$app->user;
+        if ($this->merchants === null && Yii::$app->hasModule('merchant') && ($user->can('deposit') || $user->isGuest)) {
             $this->merchants = Yii::$app->getModule('merchant')->getPurchaseRequestCollection()->getItems();
         }
 
