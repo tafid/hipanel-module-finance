@@ -68,7 +68,7 @@ class Charge extends Resource implements HasSumAndCurrencyAttributesInterface, B
             [['type', 'label', 'ftype', 'time', 'type_label', 'currency', 'exchange_date', 'client_tags', 'included_in_documents'], 'safe'],
             [['is_payed'], 'boolean'],
             [['fraction_of_month'], 'number'],
-            [['sum', 'quantity', 'bill_quantity', 'positive', 'negative', 'discount_sum', 'net_amount', 'rate', 'eur_amount'], 'number'],
+            [['sum', 'quantity', 'bill_quantity', 'positive', 'negative', 'discount_sum', 'net_amount', 'rate', 'eur_amount', 'document_sum'], 'number'],
             [['unit'], 'default', 'value' => 'items', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE]],
             [['object_id', 'sum', 'type_id', 'quantity', 'unit'], 'required', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE]],
             [['id', 'currency', 'client_id', 'action_id', 'parent_id', 'bill_id'], 'safe', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE]],
@@ -79,6 +79,7 @@ class Charge extends Resource implements HasSumAndCurrencyAttributesInterface, B
     {
         return array_merge(parent::attributeLabels(), [
             'sum' => Yii::t('hipanel', 'Sum'),
+            'document_sum' => Yii::t('hipanel:document', 'Billed sum'),
             'type' => Yii::t('hipanel', 'Type'),
             'quantity' => Yii::t('hipanel:finance', 'Qty.'),
             'label' => Yii::t('hipanel', 'Description'),
