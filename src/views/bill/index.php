@@ -46,7 +46,8 @@ $this->params['subtitle'] = $subtitle . ' ' . ExchangeRatesLine::widget(['rates'
             <?= CreateBillWithSplitDropdownButton::widget() ?>
             <?= Html::a(Yii::t('hipanel:finance', 'Add internal transfer'), ['@bill/create-transfer'], ['class' => 'btn btn-sm btn-default']) ?>
         <?php endif ?>
-        <?php if (Yii::$app->user->can('bill.create-exchange')) : ?>
+        <?php $exchangePermission = !empty(Yii::$app->params['module.bill.skip.check.permission.exchange-create']) ? 'bill.read' : 'bill.create-exchange'; ?>
+        <?php if (Yii::$app->user->can($exchangePermission)) : ?>
             <?= Html::a(Yii::t('hipanel:finance', 'Currency exchange'), ['@bill/create-exchange'], ['class' => 'btn btn-sm btn-default']) ?>
         <?php endif ?>
         <?= BillImportDropdownButton::widget() ?>
