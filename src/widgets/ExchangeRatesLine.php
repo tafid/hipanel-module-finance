@@ -35,7 +35,8 @@ class ExchangeRatesLine extends Widget
 
     public function run()
     {
-        if (!Yii::$app->user->can('bill.create-exchange') || empty($this->rates)) {
+        $requiredPermission = !empty(Yii::$app->params['module.bill.skip.check.permission.exchange-create']) ? 'bill.read' : 'bill.create-exchange';
+        if (!Yii::$app->user->can($requiredPermission) || empty($this->rates)) {
             return '';
         }
 

@@ -56,7 +56,8 @@ final class CartCurrencyNegotiator extends Widget
             $cartCurrency
         );
 
-        if (!Yii::$app->user->can('support')) {
+        $exchangePermission = !empty(Yii::$app->params['module.bill.skip.check.permission.exchange-create']) ? 'bill.read' : 'bill.create-exchange';
+        if (!Yii::$app->user->can('support') && Yii::$app->user->can($exchangePermission)) {
             // Prevent seller from exchanging own money to pay for client's services,
             // when client's tariff is in different currency.
             $convertibleCurrencies = $this->convertibleCurrencies(
